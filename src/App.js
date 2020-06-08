@@ -26,15 +26,51 @@ class App extends React.Component {
   }
 
   saveNote = (note) => {
+    const { leftFoot, rightFoot } = note;
     console.log(note)
+    fetch(`${API_URL}/api/auth/save`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({
+        leftFoot: leftFoot,
+        rightFoot: rightFoot,
+        note: note.note
+      })
+    })
   }
+
+
 
   signUp = (username, email, password) => {
     console.log(username, email, password)
   }
 
   login = (username, password) => {
-    console.log(username, password)
+    return fetch(`${API_URL}/api/auth/login`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({
+        username: username,
+        password: password
+      })
+    })
+    .then(res => {
+      if(!res.ok) {
+        throw new Error(`fetch didn't work`)
+      }
+      console.log('yay')
+      return res.json()
+    })
+    .then(response => {
+      localStorage.setItem('token', response.token)
+      this.setState({
+        username: username
+      })
+    })
   }
 
   componentDidMount() {

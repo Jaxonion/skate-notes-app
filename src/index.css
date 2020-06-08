@@ -1,3 +1,7 @@
+* {
+  
+}
+
 body {
   /*animation: rotatelogo 5s linear infinite;*/
   margin: 0;
@@ -6,6 +10,26 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 
 code {
@@ -21,7 +45,7 @@ input[type=range] {
   appearance: none;
   width: 100%; /* Full-width */
   height: 25px; /* Specified height */
-  background: #d3d3d3; /* Grey background */
+  background: #ffbf6b; /* Grey background */
   outline: none; /* Remove outline */
   opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
   -webkit-transition: .2s; /* 0.2 seconds transition on hover */
@@ -39,20 +63,44 @@ input[type=range]::-webkit-slider-thumb {
   appearance: none;
   width: 25px; /* Set a specific slider handle width */
   height: 25px; /* Slider handle height */
-  background: #4CAF50; /* Green background */
+  background: #ff756b; /* Green background */
+  border: 1px solid black;
   cursor: pointer; /* Cursor on hover */
 }
 
 input[type=range]::-moz-range-thumb {
   width: 25px; /* Set a specific slider handle width */
   height: 25px; /* Slider handle height */
-  background: #4CAF50; /* Green background */
+  background: #ff756b; /* Green background */
   cursor: pointer; /* Cursor on hover */
 }
 
 ul {
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   list-style: none;
+  height: 100%;
+  width: 100%;
+  padding: 0 10px;
 }
+
+.noteLi {
+  border: 1px solid black;
+  margin: 5px 0;
+  padding: 15px 0px;
+  width: 100%;
+  text-align: center;
+
+}
+
+.noteLi:hover {
+  background-color: #ff756b;
+}
+
+
 
 .row {
   display: flex;
@@ -70,6 +118,10 @@ ul {
   padding: 10px 20px;
 }
 
+.notes {
+  padding: 10px 0px;
+}
+
 .settings {
   /*animation: rotatelogo 2s linear infinite;*/
   display: flex;
@@ -82,12 +134,11 @@ a {
   text-decoration: none;
   color: black;
   background-color: white;
-  padding: 5px;
-  border: 1px solid black;
-  border-radius: 5px;
 }
 
 .skateboard {
+  position: relative;
+  left: 40px;
   max-width: 90px;
   height: auto;
 }
@@ -120,6 +171,10 @@ a {
 
 .inputField {
   margin-bottom: 10px;
+  border-radius: 10px;
+  padding: 5px;
+  border: 0;
+  box-shadow: 0 0 15px 4px rgba(0,0,0,0.2);
 }
 
 input {
@@ -130,6 +185,12 @@ input::placeholder {
   text-align: center;
 }
 
+.MainPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 
 /* NAV */
 
@@ -137,13 +198,26 @@ input::placeholder {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-evenly;
-  padding: 15px;
-  background-color: gray;
+  justify-content: space-around;
+  background-color: #ff9a6b;
+}
+
+.navLink {
+  position: relative;
+  background-image: linear-gradient(to bottom, #ff756b, #ff9a6b);
+  background-color: #ff756b;
+  bottom: 0px;
+  padding: 8px 20px;
+  margin: 0px 2px;
+  width: 100%;
 }
 
 .navLink:hover {
-  background-color: darkgray;
+  background-color: #6bd3ff;
+  bottom: -2px;
+  -moz-box-shadow: 5px 7px 7px -5px black, -5px 7px 7px -5px black;
+  -webkit-box-shadow: 5px 7px 5px -5px black, -5px 7px 5px -5px black;
+  box-shadow: 5px 7px 7px -5px black, -5px 7px 7px -5px black;
 }
 
 /* HOME PAGE */
@@ -155,25 +229,30 @@ input::placeholder {
 /* FORMS */
 
 .loginForm, .signUpForm {
-  background-color: gray;
+  background-color: #ff9a6b;
   padding: 20px;
+  box-shadow: inset 0px 5px 7px 0px rgba(0,0,0,0.2);
 }
 
 .LoginPage, .SignUpPage {
+  margin-top: 50px;
+  min-width: 500px;
+  max-width: 800px;
   padding: 20px 50px;
 }
 
 .submitButton {
   min-width: 163px;
   border: none;
-  background-color: darkgray;
+  background-color: #ff9a6b;
   border: 1px solid black;
   cursor: pointer;
   text-align: center;
+  padding: 5px;
 }
 
 .submitButton:hover {
-  background-color: gray;
+  background-color: #ff756b;
 }
 
 /* SIGN UP PAGE */
@@ -186,6 +265,10 @@ input::placeholder {
 }
 
 /* LOGIN PAGE */
+
+.LoginPage {
+
+}
 
 .loginForm {
   display: flex;
@@ -203,6 +286,9 @@ input::placeholder {
 
 textarea {
   width: 100%;
+  height: 100px;
+  resize: none;
+  border: 2px solid black;
 }
 
 section {
@@ -212,9 +298,26 @@ section {
   justify-content: center;
   min-height: 200px;
   padding: 30px;
-  background-color: #bbb;
+  background-color: #ff9a6b;
 }
 
 section:nth-child(even) {
-  background-color: #ddd;
+  background-color: #ff756b;
+}
+
+.title, .trickNote {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #ffbf6b;
+  padding: 15px 50px;
+  margin: 0;
+}
+
+.HomePage {
+  background-color: #ffbf6b;
+}
+
+.insideRow {
+  background-color: #ff9a6b;
 }

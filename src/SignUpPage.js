@@ -29,7 +29,7 @@ class SignUpPage extends React.Component {
     render() {
         return(
             <div className='SignUpPage'>
-                <h1>Sign Up Page</h1>
+                <h1 className='title'>Sign Up Page</h1>
                 <form className='signUpForm' onSubmit={this.signUp}>
                     <input className='inputField' type='text' placeholder='username' name='username' value={this.state.username} onChange={this.changeState} />
                     <input className='inputField' type='text' placeholder='email' name='email' value={this.state.email} onChange={this.changeState} />

@@ -20,7 +20,13 @@ class LoginPage extends React.Component {
 
     login = (event) => {
         event.preventDefault();
-        this.context.login(this.state.username, this.state.password);
+        this.context.login(this.state.username, this.state.password)
+            .then(response => {
+                this.props.history.push('/')
+            })
+                .catch(err => {
+                    alert('wrong credentials')
+                })
         this.setState({
             username: '',
             password: ''
@@ -30,7 +36,7 @@ class LoginPage extends React.Component {
     render() {
         return(
             <div className='LoginPage'>
-                <h1>Login Page</h1>
+                <h1 className='title'>Login Page</h1>
                 <form className='loginForm' onSubmit={this.login}>
                     <input className='inputField' type='text' placeholder='username' name='username' id='loginUsername' value={this.state.username} onChange={this.changeState} />
                     <input className='inputField' type='password' placeholder='password' name='password' id='loginPassword' value={this.state.password} onChange={this.changeState} />

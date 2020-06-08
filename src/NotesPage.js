@@ -39,7 +39,7 @@ class NotesPage extends React.Component {
     }
 
     saveNote = () => {
-        this.context.saveNote(this.state.note)
+        this.context.saveNote(this.state)
     }
 
     changeNote = (event) => {
@@ -70,7 +70,7 @@ class NotesPage extends React.Component {
         /* FEET POSITION HANDLER */
         const rightFootAngle = `rotate(${(this.state.rightFoot.angle/1-90 + 90).toString()}deg`;
         const rightFootUpDown = `${(this.state.rightFoot.upDown) - (-120)}px`;
-        const rightFootRightLeft = `${(this.state.rightFoot.rightLeft) -120}px`;
+        const rightFootRightLeft = `${(this.state.rightFoot.rightLeft) -80}px`;
         let rightFootStyle = {
             transform: rightFootAngle,
             top: rightFootUpDown,
@@ -79,7 +79,7 @@ class NotesPage extends React.Component {
 
         const leftFootAngle = `rotate(${(this.state.leftFoot.angle/1-90 + 90).toString()}deg`;
         const leftFootUpDown = `${(this.state.leftFoot.upDown) - 80}px`;
-        const leftFootRightLeft = `${(this.state.leftFoot.rightLeft) - 70}px`;
+        const leftFootRightLeft = `${(this.state.leftFoot.rightLeft) - 40}px`;
         let leftFootStyle = {
             transform: leftFootAngle,
             top: leftFootUpDown,
@@ -88,13 +88,22 @@ class NotesPage extends React.Component {
 
         return(
             <div className='NotesPage'>
-                <h1>Notes Page</h1>
+                <h1 className='title'>Notes Page</h1>
                 <div className='row'>
                     <div className='notes insideRow'>
                         <ul>
-                            <li>note 1</li>
-                            <li>note 2</li>
-                            <li>note 3</li>
+                            <li className='noteLi'>note 1</li>
+                            <li className='noteLi'>note 2</li>
+                            <li className='noteLi'>note 3</li>
+                            <li className='noteLi'>note 1</li>
+                            <li className='noteLi'>note 2</li>
+                            <li className='noteLi'>note 3</li>
+                            <li className='noteLi'>note 1</li>
+                            <li className='noteLi'>note 2</li>
+                            <li className='noteLi'>note 3</li>
+                            <li className='noteLi'>note 1</li>
+                            <li className='noteLi'>note 2</li>
+                            <li className='noteLi'>note 3</li>
                         </ul>
                     </div>
                     <div className='settings insideRow'>
@@ -122,7 +131,7 @@ class NotesPage extends React.Component {
                 <div className='trickNote'>
                     <h2>Notes</h2>
                    <textarea className='note' onChange={this.changeNote} /> 
-                   <button type='submit' onClick={this.saveNote}>Save</button>
+                   <button type='submit' className='submitButton' onClick={this.saveNote}>Save</button>
                 </div>
             </div>
         )
