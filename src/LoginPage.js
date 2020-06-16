@@ -27,10 +27,6 @@ class LoginPage extends React.Component {
                 .catch(err => {
                     alert('wrong credentials')
                 })
-        this.setState({
-            username: '',
-            password: ''
-        })
     }
 
     render() {
@@ -38,8 +34,8 @@ class LoginPage extends React.Component {
             <div className='LoginPage'>
                 <h1 className='title'>Login Page</h1>
                 <form className='loginForm' onSubmit={this.login}>
-                    <input className='inputField' type='text' placeholder='username' name='username' id='loginUsername' value={this.state.username} onChange={this.changeState} />
-                    <input className='inputField' type='password' placeholder='password' name='password' id='loginPassword' value={this.state.password} onChange={this.changeState} />
+                    <input className='inputField' type='text' placeholder='username: jordan' name='username' id='loginUsername' value={this.state.username} onChange={this.changeState} />
+                    <input className='inputField' type='password' placeholder='password: Jordan1!' name='password' id='loginPassword' value={this.state.password} onChange={this.changeState} />
                     <button
                         className='submitButton'
                         type='submit'>

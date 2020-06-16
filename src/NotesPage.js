@@ -4,12 +4,16 @@ import appContext from './appContext';
 import skateboard from './pictures/skateboard.png';
 import leftShoe from './pictures/leftShoe.png';
 import rightShoe from './pictures/rightShoe.png';
+import { API_URL } from './config';
 
 class NotesPage extends React.Component {
     static contextType = appContext;
     constructor(props) {
         super(props)
         this.state = {
+            username: '',
+            selectedNote: '',
+            selectedNoteId: '',
             leftFoot: {
                 angle: '90',
                 upDown: '0',
@@ -21,31 +25,125 @@ class NotesPage extends React.Component {
                 rightLeft: '0'
             },
             note: '',
-            testNotes: {
-                kickflip: {
-                    leftFoot: {
-                        angle: '90',
-                        upDown: '0',
-                        rightLeft: '0'
-                    },
-                    rightFoot: {
-                        angle: '90',
-                        upDown: '0',
-                        rightLeft: '0'
+            notes: []
+        }
+    }
+
+    componentDidMount() {
+        //console.log(this.context)
+        //console.log(this.context.username)
+        this.setState({
+            username: this.context.username
+        })
+        this.loadTricks()
+    }
+
+    newTrick = () => {
+        if(this.context.username) {
+            this.context.newTrick('new trick')
+                .then(response => {
+                    this.loadTricks()
+                })
+            //this.loadTricks()
+        }
+        else {
+            alert('need to log in')
+        }
+    }
+
+    loadTricks = () => {
+        if(this.context.username) {
+            this.setState({
+                notes: []
+            })
+            console.log('ran')
+            fetch(`${API_URL}/api/auth/info`, {
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/json'
+                },
+                body: JSON.stringify({
+                username: this.context.username  
+                })
+            })
+                .then(res => {
+                    if(!res.ok) {
+                        throw new Error('error getting user info')
                     }
-                }
-            }
+                    return res.json()
+                })
+                    .then(notes => {
+                        //console.log(notes.notes)
+                        this.setState({
+                            notes: notes.notes
+                        })
+                        //console.log(this.state.notes)
+                    })
         }
     }
 
     saveNote = () => {
-        this.context.saveNote(this.state)
+        if(this.context.username) {
+            this.context.saveNote(this.state)
+                .then(response => {
+                    this.loadTricks()
+                })
+            //this.loadTricks()
+        }
+        else {
+            alert('need to log in')
+        }
+    }
+
+    deleteNote = () => {
+        if (this.context.username) {
+            this.context.deleteNote(this.state.selectedNoteId)
+        }
+        else {
+            alert('need to log in')
+        }
     }
 
     changeNote = (event) => {
         this.setState({
             note: event.target.value
         })
+    }
+
+    changeTrickName = (event) => {
+        this.setState({
+            selectedNote: event.target.value
+        })
+    }
+
+    selectedNote = (event) => {
+        this.setState({
+            selectedNote: '',
+            selectedNoteId: ''
+        })
+    }
+
+    loadTrick = (event) => {
+        //console.log(event.target)
+        //console.log(this.state.selectedNoteId, this.state.selectedNote)
+        //console.log(this.state.notes[event.target.id].trick_name)
+        const { user_id, trick_name, id, leftfootangle, leftfootupdown, leftfootrightleft, rightfootangle, rightfootupdown, rightfootrightleft, note} = this.state.notes[event.target.id];
+        this.setState({
+            selectedNote: trick_name,
+            selectedNoteId: id,
+            leftFoot: {
+                angle: leftfootangle,
+                upDown: leftfootupdown,
+                rightLeft: leftfootrightleft
+            },
+            rightFoot: {
+                angle: rightfootangle,
+                upDown: rightfootupdown,
+                rightLeft: rightfootrightleft
+            },
+            note: note
+        })
+        //this.state.notes[event.target.key]
     }
 
     changeSettings = (event) => {
@@ -60,12 +158,10 @@ class NotesPage extends React.Component {
                 [elementClassName]: elementValue
             }
         })
+        //console.log(this.state)
     }
 
     render() {
-        /* LIST OF TRICKS */
-        const listElements = ['kickflip', 'heelflip',]
-        const element = <li>hey</li>
 
         /* FEET POSITION HANDLER */
         const rightFootAngle = `rotate(${(this.state.rightFoot.angle/1-90 + 90).toString()}deg`;
@@ -89,21 +185,17 @@ class NotesPage extends React.Component {
         return(
             <div className='NotesPage'>
                 <h1 className='title'>Notes Page</h1>
+                <div className='trickName'>
+                    <input value={this.state.selectedNote} onChange={this.changeTrickName}></input>
+                    <button onClick={this.newTrick}>New Trick</button>
+                    <button onClick={this.deleteNote}>Delete</button>
+                </div>
                 <div className='row'>
                     <div className='notes insideRow'>
                         <ul>
-                            <li className='noteLi'>note 1</li>
-                            <li className='noteLi'>note 2</li>
-                            <li className='noteLi'>note 3</li>
-                            <li className='noteLi'>note 1</li>
-                            <li className='noteLi'>note 2</li>
-                            <li className='noteLi'>note 3</li>
-                            <li className='noteLi'>note 1</li>
-                            <li className='noteLi'>note 2</li>
-                            <li className='noteLi'>note 3</li>
-                            <li className='noteLi'>note 1</li>
-                            <li className='noteLi'>note 2</li>
-                            <li className='noteLi'>note 3</li>
+                            {this.state.notes.map( (note, index ) => {
+                                return ( <li onClick={this.loadTrick} className='noteLi' key={index} id={index} value={note.trick_name}>{note.trick_name}</li> )
+                            })}
                         </ul>
                     </div>
                     <div className='settings insideRow'>
@@ -130,7 +222,7 @@ class NotesPage extends React.Component {
                 </div>
                 <div className='trickNote'>
                     <h2>Notes</h2>
-                   <textarea className='note' onChange={this.changeNote} /> 
+                   <textarea className='note' value={this.state.note} onChange={this.changeNote} /> 
                    <button type='submit' className='submitButton' onClick={this.saveNote}>Save</button>
                 </div>
             </div>
