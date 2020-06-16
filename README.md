@@ -8,8 +8,15 @@ The `purpose` of this app is to help `skateboarders` take notes on how they do t
 
 The `notes page` has a `skateboard` and two `shoes`. The shoes are adjustable for each new note/trick so that you can remember how you position your feet. There is also a slot for `notes` where you can take notes on `tips` and `tricks` that helped you learn it.
 
+![](src/pictures/notespage.PNG)
 
 The `login page` or `sign up page` can be used to login or create an account and be able to start saving notes.
+
+![](src/pictures/loginpage.PNG)
+
+The `home page` explains how to use the app and what it's for.
+
+![](src/pictures/homepage.PNG)
 
 ## `Technologies Used`
 HTML, CSS, React, PostgreSQL, Javascript, Express, Heroku, Zeit and Node.
