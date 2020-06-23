@@ -30,12 +30,10 @@ class NotesPage extends React.Component {
     }
 
     componentDidMount() {
-        //console.log(this.context)
-        //console.log(this.context.username)
         this.setState({
             username: this.context.username
-        })
-        this.loadTricks()
+        });
+        this.loadTricks();
     }
 
     newTrick = () => {
@@ -44,7 +42,6 @@ class NotesPage extends React.Component {
                 .then(response => {
                     this.loadTricks()
                 })
-            //this.loadTricks()
         }
         else {
             alert('need to log in')
@@ -55,8 +52,7 @@ class NotesPage extends React.Component {
         if(this.context.username) {
             this.setState({
                 notes: []
-            })
-            console.log('ran')
+            });
             fetch(`${API_URL}/api/auth/info`, {
                 method: 'POST',
                 headers: {
@@ -73,11 +69,9 @@ class NotesPage extends React.Component {
                     return res.json()
                 })
                     .then(notes => {
-                        //console.log(notes.notes)
                         this.setState({
                             notes: notes.notes
-                        })
-                        //console.log(this.state.notes)
+                        });
                     })
         }
     }
@@ -86,34 +80,36 @@ class NotesPage extends React.Component {
         if(this.context.username) {
             this.context.saveNote(this.state)
                 .then(response => {
-                    this.loadTricks()
-                })
-            //this.loadTricks()
+                    this.loadTricks();
+                });
         }
         else {
-            alert('need to log in')
+            alert('need to log in');
         }
     }
 
     deleteNote = () => {
         if (this.context.username) {
             this.context.deleteNote(this.state.selectedNoteId)
+                .then(response => {
+                    this.loadTricks();
+                })
         }
         else {
-            alert('need to log in')
+            alert('need to log in');
         }
     }
 
     changeNote = (event) => {
         this.setState({
             note: event.target.value
-        })
+        });
     }
 
     changeTrickName = (event) => {
         this.setState({
             selectedNote: event.target.value
-        })
+        });
     }
 
     selectedNote = (event) => {
@@ -124,10 +120,7 @@ class NotesPage extends React.Component {
     }
 
     loadTrick = (event) => {
-        //console.log(event.target)
-        //console.log(this.state.selectedNoteId, this.state.selectedNote)
-        //console.log(this.state.notes[event.target.id].trick_name)
-        const { user_id, trick_name, id, leftfootangle, leftfootupdown, leftfootrightleft, rightfootangle, rightfootupdown, rightfootrightleft, note} = this.state.notes[event.target.id];
+        const { trick_name, id, leftfootangle, leftfootupdown, leftfootrightleft, rightfootangle, rightfootupdown, rightfootrightleft, note} = this.state.notes[event.target.id];
         this.setState({
             selectedNote: trick_name,
             selectedNoteId: id,
@@ -143,7 +136,6 @@ class NotesPage extends React.Component {
             },
             note: note
         })
-        //this.state.notes[event.target.key]
     }
 
     changeSettings = (event) => {
@@ -158,7 +150,6 @@ class NotesPage extends React.Component {
                 [elementClassName]: elementValue
             }
         })
-        //console.log(this.state)
     }
 
     render() {
@@ -186,9 +177,10 @@ class NotesPage extends React.Component {
             <div className='NotesPage'>
                 <h1 className='title'>Notes Page</h1>
                 <div className='trickName'>
-                    <input value={this.state.selectedNote} onChange={this.changeTrickName}></input>
-                    <button onClick={this.newTrick}>New Trick</button>
-                    <button onClick={this.deleteNote}>Delete</button>
+                    <label><h3>Trick:</h3></label>
+                    <input value={this.state.selectedNote} onChange={this.changeTrickName} className='trickInput' placeholder='trick name'></input>
+                    <button onClick={this.newTrick} className='notesButton'>New Trick</button>
+                    <button onClick={this.deleteNote} className='notesButton'>Delete</button>
                 </div>
                 <div className='row'>
                     <div className='notes insideRow'>
@@ -202,14 +194,20 @@ class NotesPage extends React.Component {
                         <form>
                             <div className='leftFoot'>
                                 <h2>Left Foot</h2>
+                                <span aria-label='rotate' role='img' className='remove'>🔄</span>
                                 <input className='angle' type='range' min='0' max='180' value={this.state.leftFoot.angle} onChange={this.changeSettings} />
+                                <span aria-label='left-right' role='img' className='remove'>↔️</span>
                                 <input className='rightLeft' type='range' min='-50' max='50' value={this.state.leftFoot.rightLeft} onChange={this.changeSettings} />
+                                <span aria-label='up-down' role='img' className='remove'>↕️</span>
                                 <input className='upDown' type='range' min='-50' max='50' value={this.state.leftFoot.upDown} onChange={this.changeSettings} />
                             </div>
                             <div className='rightFoot'>
                                 <h2>Right Foot</h2>
+                                <span aria-label='rotate' role='img' className='remove'>🔄</span>
                                 <input className='angle' type='range' min='0' max='180' value={this.state.rightFoot.angle} onChange={this.changeSettings} />
+                                <span aria-label='right-left' role='img' className='remove'>↔️</span>
                                 <input className='rightLeft' type='range' min='-50' max='50' value={this.state.rightFoot.rightLeft} onChange={this.changeSettings} />
+                                <span aria-label='up-down' role='img' className='remove'>↕️</span>
                                 <input className='upDown' type='range' min='-50' max='50' value={this.state.rightFoot.upDown} onChange={this.changeSettings} />
                             </div>
                         </form>
@@ -223,7 +221,7 @@ class NotesPage extends React.Component {
                 <div className='trickNote'>
                     <h2>Notes</h2>
                    <textarea className='note' value={this.state.note} onChange={this.changeNote} /> 
-                   <button type='submit' className='submitButton' onClick={this.saveNote}>Save</button>
+                   <button type='submit' className='saveButton' onClick={this.saveNote}>Save</button>
                 </div>
             </div>
         )

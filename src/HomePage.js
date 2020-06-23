@@ -1,4 +1,5 @@
 import React from 'react';
+import howToOne from './pictures/footposition.PNG';
 
 class HomePage extends React.Component {
     constructor(props) {
@@ -32,6 +33,7 @@ class HomePage extends React.Component {
                         <h3>Learn from Others</h3>
                     </header>
                     <p>See others tips, foot placement etc for learning a specific trick.</p>
+                    <img className='howToPic' src={howToOne} alt='how to' />
                 </section>
             </div>
         )

@@ -28,7 +28,7 @@ class App extends React.Component {
   }
 
   displayLocation = () => {
-    console.log(window.location.pathname)
+    //console.log(window.location.pathname)
   }
 
   logout = () => {
@@ -52,18 +52,8 @@ class App extends React.Component {
 
   saveNote = (note) => {
     const { leftFoot, rightFoot, selectedNote, selectedNoteId } = note;
-    //console.log('note', note)
-    /*const update = {
-      username: this.state.username,
-        noteId: selectedNoteId,
-        trick_name: trick_name,
-        leftFoot: leftFoot,
-        rightFoot: rightFoot,
-        note: note.note
-    }
-    console.log(update)*/
     return fetch(`${API_URL}/api/auth/save`, {
-      method: 'POST',
+      method: 'PUT',
       headers: {
         'content-type': 'application/json'
       },
@@ -84,21 +74,18 @@ class App extends React.Component {
   }
 
   deleteNote = (selectedNoteId) => {
-    fetch(`${API_URL}/api/auth/delete`, {
-      method: 'POST',
+    //console.log(selectedNoteId)
+    return fetch(`${API_URL}/api/auth/delete/${selectedNoteId}`, {
+      method: 'DELETE',
       headers: {
         'content-type': 'application/json'
-      },
-      body: JSON.stringify({
-        selectedNoteId: selectedNoteId
-      })
+      }
     })
   }
 
 
 
   signUp = (username, email, password) => {
-    console.log(username, email, password)
     return fetch(`${API_URL}/api/auth/signup`, {
       method: 'POST',
       headers: {
@@ -125,7 +112,6 @@ class App extends React.Component {
   }
 
   login = (username, password) => {
-    console.log(username, password)
 
     fetch(`${API_URL}/api/auth/login`, {
       method: 'POST',
@@ -147,7 +133,7 @@ class App extends React.Component {
         .then(response => {
           localStorage.setItem('token', response.token)
           this.setState({
-            username: response.username
+            username: username
           })
           return response
         })
@@ -190,13 +176,13 @@ class App extends React.Component {
       newTrick: this.newTrick,
       username: this.state.username
     }
-    console.log('location', window.location.pathname)
+    //console.log('location', window.location.pathname)
     return (
       <appContext.Provider
         value={contextValue}>
         <div className="App">
-          <div className='topnav'>
-            <Link className='navLink' to='/' id='homepage' onClick={this.changePage}>Home Page</Link>
+        <div className='topnav'>
+            <Link className='navLink fourth' to='/' id='homepage' onClick={this.changePage}>Home Page</Link>
             {
               this.state.username || window.location.pathname == '/signuppage' ? null : <Link className='navLink' to='/signuppage' id='signup' onClick={this.changePage}>Sign Up Page</Link>
             }
@@ -207,7 +193,7 @@ class App extends React.Component {
               this.state.username ? <Link className='navLink' to='/' onClick={this.logout}>Log Out</Link> : null
             }
             {
-              window.location.pathname !== '/notespage' ? <Link className='navLink' to='/notespage' id='notespage' onClick={this.changePage}>Notes</Link> : null
+              this.state.username && window.location.pathname !== '/notespage' ? <Link className='navLink' to='/notespage' id='notespage' onClick={this.changePage}>Notes</Link> : null
             }
           </div>
           <div className='MainPage'>
